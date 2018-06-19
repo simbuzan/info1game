@@ -59,10 +59,8 @@ public class Game
     public void play() 
     {            
         printWelcome();
-
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -100,6 +98,13 @@ public class Game
         System.out.println();
         System.out.println("You are " + currentRoom.getDescription());
         System.out.print("Exits: ");
+        printStatus();
+        System.out.println();
+    }
+    
+    
+    private void printStatus()
+    {
         if(currentRoom.northExit != null) {
             System.out.print("north ");
         }
@@ -111,8 +116,7 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
-        }
-        System.out.println();
+        }   
     }
 
     /**
@@ -123,7 +127,6 @@ public class Game
     private String processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
         if(command.isUnknown()) {
             return "I don't know what you mean...";       
         }
@@ -172,9 +175,7 @@ public class Game
             // if there is no second word, we don't know where to go...
             return "Go where?";
         }
-
         String direction = command.getSecondWord();
-
         // Try to leave current room.
         Room nextRoom = null;
         if(direction.equals("north")) {
