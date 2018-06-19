@@ -1,4 +1,3 @@
 # info1game
-our repository for the info lab game
-Daan said I should add a descirption in the README, but I dunno why or what or how
-i thought i already did
+/*The idea behind this game is that we are the brain of a stealing opeartion, our (noob) agent is on the field stealing something from a museum/location. Since the power is off and since he can't figure out a way to get out, we're supposed to give him indications on where to get and what to do. The thief needs to get out without getting caught, only then the player wins.*/
+/*Interesting things we can add: sleeping guard (gotta be silent and communicate as little as possible), maybe what the thief stole is an ice sculpture which is melting, so there's time pressure; locked doors which he has to unlock, cold rooms where the thief can cool the ice, shortcut through rooms; connection gets lost cus of the power-off, the brain needs to solve a puzzle to restore signal, you can distract guards maybe.*/
