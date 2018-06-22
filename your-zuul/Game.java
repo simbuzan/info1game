@@ -19,7 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
+    validWords valid;
     /**
      * Create the game and initialise its internal map.
      */
@@ -35,7 +35,7 @@ public class Game
     private void createRooms()
     {
         Room outside, theater, pub, lab, office;
-
+        
         // create the rooms
         outside = new Room("outside the main entrance of the university");
         theater = new Room("in a lecture theater");
@@ -147,11 +147,29 @@ public class Game
         else if (commandWord.equals("look")) {
             result = look(command);
         }
+        else if (commandWord.equals("hack")) {
+            result = hack(command);
+            TimeBomb(5000);
+        }
         return result ;
     }
-
-    // implementations of user commands:
-
+    /**
+     * gets all the command options 
+     * @return String neatly cut up for use on the user side
+     */
+    private String getCommandOptions()
+    {
+        String out = "";
+        for (validWords v: valid.values())
+        {
+            out += v.toString();
+            out += ", ";
+        }
+        // removes the last komma
+        out = out.substring(0, out.length() - 2);
+        return out;
+    }
+    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -159,14 +177,15 @@ public class Game
      */
     private String printHelp() 
     {
+      
         return "You are lost. You are alone. You wander"
         +"\n"
         + "around at the university."
         +"\n"
         +"\n"
-        +"Your command words are:"
+        +"Your command words are:" 
         +"\n"
-        +"   go quit help"
+        + getCommandOptions() 
         +"\n";
     }
 
@@ -240,6 +259,32 @@ public class Game
     private String look(Command command)
     {
         return "looking around not really much too see";
+    }
+    /**
+     * @param a Command object
+     * 
+     * returns String saying what you see 
+     */
+    private String hack(Command command)
+    {
+        return "Wrong move, 5 seconds till selfdesctruction";
+    }
+    /**
+     * @param Time paused before main event in MS
+     * 
+     * sets the selfdestruction event up
+     */
+    private void TimeBomb(int time)
+    {
+       try        
+       {
+           Thread.sleep(time);
+       } 
+       catch(InterruptedException ex) 
+       {
+           System.out.println("oops");
+       }
+       System.exit(1);
     }
 
     /** 
