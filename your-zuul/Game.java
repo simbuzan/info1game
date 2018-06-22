@@ -144,6 +144,9 @@ public class Game
         else if (commandWord.equals("eat")) {
             result = eat(command);
         }
+        else if (commandWord.equals("look")) {
+            result = look(command);
+        }
         return result ;
     }
 
