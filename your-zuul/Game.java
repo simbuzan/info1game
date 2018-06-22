@@ -44,11 +44,11 @@ public class Game
         office = new Room("in the computing admin office");
 
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        outside.setExits(null, theater, lab, pub, false);
+        theater.setExits(null, null, null, outside, true);
+        pub.setExits(null, outside, null, null, true);
+        lab.setExits(outside, office, null, null, false);
+        office.setExits(null, null, null, lab, true);
 
         currentRoom = outside;  // start game outside
     }
@@ -141,7 +141,9 @@ public class Game
         else if (commandWord.equals("quit")) {
             result = quit(command);
         }
-
+        else if (commandWord.equals("eat")) {
+            result = eat(command);
+        }
         return result ;
     }
 
@@ -212,6 +214,29 @@ public class Game
             }         
         }
         return result + "\n";
+    }
+    /**
+     * @param a Command object
+     * 
+     * returns String saying that you have eaten
+     */
+    private String eat(Command command)
+    {
+        if (currentRoom.containsFood){
+            return "You have eaten now and are not hungry any more";
+        }
+        else{
+            return "there is no food here getting hangry";
+        }
+    }
+    /**
+     * @param a Command object
+     * 
+     * returns String saying what you see 
+     */
+    private String look(Command command)
+    {
+        return "looking around not really much too see";
     }
 
     /** 
