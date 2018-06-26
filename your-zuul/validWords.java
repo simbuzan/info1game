@@ -7,5 +7,5 @@
  */
 public enum validWords
     {
-        go, quit, help, eat, look, hack;
+        go, quit, help, eat, look, hack, back;
     }

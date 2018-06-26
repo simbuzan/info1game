@@ -33,6 +33,9 @@ public class Command
     {
         commandWord = firstWord;
         this.secondWord = secondWord;
+        if (commandWord == "back"){
+            this.secondWord = "anything";
+        }
     }
 
     /**
