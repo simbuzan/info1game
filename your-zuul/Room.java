@@ -15,12 +15,13 @@
 public class Room 
 {
     public String description;
-    public boolean containsFood;
+    public int objectNR;
     public Room northExit;
     public Room southExit;
     public Room eastExit;
     public Room westExit;
-
+    public Object[] ob = new Object[10];
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -31,7 +32,6 @@ public class Room
     {
         this.description = description;
     }
-
     /**
      * Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
@@ -39,8 +39,10 @@ public class Room
      * @param east The east east.
      * @param south The south exit.
      * @param west The west exit.
-     */
-    public void setExits(Room north, Room east, Room south, Room west, boolean containsFood) 
+     * @param objectNR
+      */
+    public void setExits(Room north, Room east, Room south, Room west,
+                    int objectNR, String objectDescription, int objectWeight)
     {
         if(north != null) {
             northExit = north;
@@ -54,9 +56,27 @@ public class Room
         if(west != null) {
             westExit = west;
         }
-        this.containsFood = containsFood;
+        this.objectNR = objectNR;
+        if (objectNR != -1)
+        {
+            addItem(objectNR, objectDescription, objectWeight);
+        }
     }
-
+    public void addItem(int objectNR, String objectDescription, int objectWeight)
+    {
+        ob[objectNR] = new Object(objectDescription, objectWeight);
+    }
+    public String getObjectDescription()
+    {
+        if (objectNR == -1)
+        {
+            return "nothing here";
+        }
+        else 
+        {
+            return ob[objectNR].getDescription();
+        }
+    }
     /**
      * @return The description of the room.
      */

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Object
+comment0.text=\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Object.\n\ \n\ @author\ (Ihr\ Name)\ \n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\n
+comment1.params=objectDescription\ objectWeight
+comment1.target=Object(java.lang.String,\ int)
+comment2.params=
+comment2.target=int\ getWeight()
+comment3.params=
+comment3.target=java.lang.String\ getDescription()
+numComments=4

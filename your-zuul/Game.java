@@ -42,14 +42,15 @@ public class Game
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
-
+        
+        
         // initialise room exits
-        outside.setExits(null, theater, lab, pub, false);
-        theater.setExits(null, null, null, outside, true);
-        pub.setExits(null, outside, null, null, true);
-        lab.setExits(outside, office, null, null, false);
-        office.setExits(null, null, null, lab, true);
-
+        outside.setExits(null, theater, lab, pub, -1, "a copper teacup", 5);
+        theater.setExits(null, null, null, outside, -1, "a guard", 80);
+        pub.setExits(null, outside, null, null, 1, "a juicebox", 90);
+        lab.setExits(outside, office, null, null, 2, "the faberge egg", 500);
+        office.setExits(null, null, null, lab, 3, "a piece of paper with a phonenumber", 1);
+        
         currentRoom = outside;  // start game outside
     }
 
@@ -221,6 +222,7 @@ public class Game
         else {
             currentRoom = nextRoom;
             result += "You are " + currentRoom.getDescription()+"\n";
+            result += "in this room there is, " + currentRoom.getObjectDescription() +"\n";
             result += "Exits: ";
             if(currentRoom.northExit != null) {
                 result += "north ";
@@ -244,11 +246,11 @@ public class Game
      */
     private String eat(Command command)
     {
-        if (currentRoom.containsFood){
-            return "You have eaten now and are not hungry any more";
+        if (currentRoom.objectNR != -1){
+            return "There is an object in the room";
         }
         else{
-            return "there is no food here getting hangry";
+            return "there is no object in the room";
         }
     }
     /**
@@ -276,7 +278,7 @@ public class Game
      */
     private void TimeBomb(int time)
     {
-       try        
+       try   
        {
            Thread.sleep(time);
        } 
