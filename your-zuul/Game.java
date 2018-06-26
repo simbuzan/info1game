@@ -19,7 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private Room lastRoom;
+    private Room prevRoom;
     validWords valid;
     /**
      * Create the game and initialise its internal map.
@@ -139,7 +139,7 @@ public class Game
             result = printHelp();
         }
         else if (commandWord.equals("go")) {
-            result = goRoom(command, false);
+            result = goRoom(command);
         }
         else if (commandWord.equals("quit")) {
             result = quit(command);
@@ -155,7 +155,7 @@ public class Game
             TimeBomb(5000);
         }
         else if(commandWord.equals("back")) {
-            result = goRoom(command, true);
+            result = back(command);
         }
         
         return result ;
@@ -196,30 +196,43 @@ public class Game
         + getCommandOptions() 
         +"\n";
     }
-
+    private String back(Command command)
+    {
+        String result = "";
+        currentRoom = this.prevRoom;
+        result += "You are " + currentRoom.getDescription()+"\n";
+        result += "in this room there is, " + currentRoom.getObjectDescription() +"\n";
+        result += "Exits: ";
+        if(currentRoom.northExit != null) {
+                result += "north ";
+            }
+        if(currentRoom.eastExit != null) {
+            result += "east ";
+        }
+        if(currentRoom.southExit != null) {
+            result += "south ";
+        }
+        if(currentRoom.westExit != null) {
+            result += "west ";
+        }
+        return result;
+    }
+        
+    
+        
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
      */
-    private String goRoom(Command command, boolean backward) 
+    private String goRoom(Command command) 
     {
         
-        if(!command.hasSecondWord() && !backward) {
+        if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             return "please tell where to go";
         }
- 
         Room nextRoom = null;
-        lastRoom = currentRoom;
-        if(backward){
-            String result = ""; 
-            nextRoom = lastRoom;
-            result += "You are " + currentRoom.getDescription()+"\n";
-            result += "in this room there is, " + currentRoom.getObjectDescription() +"\n";
-            result += "Exits: ";
-            return result;
-        }
-        
+        prevRoom = currentRoom;
         String direction = command.getSecondWord();
         if(direction.equals("north")) {
             nextRoom = currentRoom.northExit;
@@ -233,6 +246,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+    
+        
+           
         String result = "";
         if (nextRoom == null) {
             result += "There is no door!";
@@ -258,6 +274,7 @@ public class Game
         }
         return result + "\n";
     }
+
     /**
      * @param a Command object
      * 
