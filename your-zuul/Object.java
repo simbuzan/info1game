@@ -1,9 +1,9 @@
 
 /**
- * Beschreiben Sie hier die Klasse Object.
+ * Object class for the objects that can be stored in the rooms
  * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
+ * @author Daan Lockhorst, Steffie Imbuzan, Ella katasijto
+ * @version 03.05.2018
  */
 public class Object
 {
@@ -11,15 +11,22 @@ public class Object
     String objectDescription;
     int objectWeight;
     
+    
     public Object(String objectDescription, int objectWeight)
     {
         this.objectDescription = objectDescription;
         this.objectWeight = objectWeight;
     }
+    /**
+    * @return int object weight
+    */
     public int getWeight()
     {
         return objectWeight;
     }
+     /**
+    * @return String containing the object description
+    */
     public String getDescription()
     {
         return objectDescription;

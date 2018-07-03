@@ -62,10 +62,20 @@ public class Room
             addItem(objectNR, objectDescription, objectWeight);
         }
     }
+    /**
+     * add item to the item array 
+     * @param objectNR the index to link to rooms
+     * @param String objectDescription tells what the object is and does
+     * @param int objectWeigth checks if player stregth is enought to pick up the objects
+     */
     public void addItem(int objectNR, String objectDescription, int objectWeight)
     {
         ob[objectNR] = new Object(objectDescription, objectWeight);
     }
+    /**
+     * 
+     * @Returns a object description of whats in the room
+     */
     public String getObjectDescription()
     {
         if (objectNR == -1)

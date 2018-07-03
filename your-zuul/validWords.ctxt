@@ -1,4 +1,4 @@
 #BlueJ class context
 comment0.target=validWords
-comment0.text=\n\ Write\ a\ description\ of\ class\ validWords\ here.\n\n\ @author\ Daan\ Lockhorst,\ Stefania\ Imbuzan,\ Ella\ Katasjito\n\ @version\ 22.june.2018\n
+comment0.text=\n\ The\ validWords\ enum\ class\ with\ all\ the\ games\ commands\ \n\ has\ the\ .values()\ function\ build\ in\ so\ we\ can\ call\ that\ to\ get\n\ all\ the\ values\ out\ \n\n\ @author\ Daan\ Lockhorst,\ Stefania\ Imbuzan,\ Ella\ Katasjito\n\ @version\ 22.june.2018\n
 numComments=1

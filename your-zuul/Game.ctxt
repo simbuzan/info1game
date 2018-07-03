@@ -6,6 +6,7 @@ comment1.target=Game()
 comment1.text=\n\ Create\ the\ game\ and\ initialise\ its\ internal\ map.\n
 comment10.params=command
 comment10.target=java.lang.String\ back(Command)
+comment10.text=\n\ Command\ to\ go\ back\ uses\ the\ global\ lastRoom\ Room\ \n\ where\ the\ previous\ room\ is\ saved\ and\ than\ goes\ "back"\ to\ there\n\ @return\ String\ with\ the\ room\ description\ \n
 comment11.params=command
 comment11.target=java.lang.String\ goRoom(Command)
 comment11.text=\ \n\ Try\ to\ go\ in\ one\ direction.\ If\ there\ is\ an\ exit,\ enter\n\ the\ new\ room,\ otherwise\ print\ an\ error\ message.\n

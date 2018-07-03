@@ -51,6 +51,8 @@ public class Game
         pub.setExits(null, outside, null, null, 1, "a juicebox", 90);
         lab.setExits(outside, office, null, null, 2, "the faberge egg", 500);
         office.setExits(null, null, null, lab, 3, "a piece of paper with a phonenumber", 1);
+        
+        // makes the lastRoom for going back in time
         Room lastRoom = outside;
         currentRoom = outside;  // start game outside
     }
@@ -103,8 +105,6 @@ public class Game
         printStatus();
         System.out.println();
     }
-    
-    
     private void printStatus()
     {
         if(currentRoom.northExit != null) {
@@ -196,6 +196,11 @@ public class Game
         + getCommandOptions() 
         +"\n";
     }
+     /**
+     * Command to go back uses the global lastRoom Room 
+     * where the previous room is saved and than goes "back" to there
+     * @return String with the room description 
+     */
     private String back(Command command)
     {
         String result = "";
@@ -246,9 +251,7 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
-    
-        
-           
+  
         String result = "";
         if (nextRoom == null) {
             result += "There is no door!";
