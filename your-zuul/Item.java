@@ -5,14 +5,14 @@
  * @author Daan Lockhorst, Steffie Imbuzan, Ella katasijto
  * @version 03.05.2018
  */
-public class Object
+public class Item
 {
     int objectNR;
     String objectDescription;
     int objectWeight;
     
     
-    public Object(String objectDescription, int objectWeight)
+    public Item(String objectDescription, int objectWeight)
     {
         this.objectDescription = objectDescription;
         this.objectWeight = objectWeight;

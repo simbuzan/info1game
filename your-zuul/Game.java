@@ -14,13 +14,17 @@
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+import java.util.*;
 
 public class Game 
 {
     private Parser parser;
     private Room currentRoom;
     private Room prevRoom;
+    Stack<Room> history = new Stack<Room>();
     validWords valid;
+    boolean hacked = false;
+    Stack<Item> itemsCarreid = new Stack<Item>();
     /**
      * Create the game and initialise its internal map.
      */
@@ -35,7 +39,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room outside, theater, pub, lab, office, tresure, gaurded, computer, gaurdedGarden;
         
         // create the rooms
         outside = new Room("outside the main entrance of the university");
@@ -43,17 +47,32 @@ public class Game
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
+        tresure = new Room("in a beautifull room full of amazing stuff");
+        gaurded = new Room("in a place which looks like it full of gaurds");
+        computer = new Room("in the maintainance room, I can see a computer");
+        gaurdedGarden = new Room("in the gaurdhaus in the garden");
         
-        
-        // initialise room exits
-        outside.setExits(null, theater, lab, pub, -1, "a copper teacup", 5);
-        theater.setExits(null, null, null, outside, -1, "a guard", 80);
-        pub.setExits(null, outside, null, null, 1, "a juicebox", 90);
-        lab.setExits(outside, office, null, null, 2, "the faberge egg", 500);
-        office.setExits(null, null, null, lab, 3, "a piece of paper with a phonenumber", 1);
+        /**
+         * @param Room northexit
+         * @param Room westexit
+         * @param Room southexit
+         * @param room eastexit 
+         * @param place in objectArray -1 is no objects there to pickup
+         * @param String object description
+         * @param int if the object is pickup able by the player +100 
+         */
+        outside.setExits(null, theater, lab, pub, -1, "nothing to see here", 5);
+        gaurdedGarden.setExits(theater, null, null, null, -1, "gaurds here better be silent and get out of here", 3);
+        theater.setExits(null, null, gaurdedGarden, outside, -1, "a guard walking around better leave soon", 80);
+        pub.setExits(null, outside, null, null, -1, "nothing there", 90);
+        lab.setExits(outside, office, null, null, -1, "reasearch and stuff", 500);
+        office.setExits(null, null, computer, lab, 3, "a piece of paper with a code of some kind", 101);
+        computer.setExits(null, null, office, gaurded, 4, "a mainframecomputer, HMMMM", 101);
+        gaurded.setExits(computer, null, tresure, null, 5, "sleepy guards on the floor", 50);
+        tresure.setExits(tresure, null, gaurded, null, 6, "the magical looking fabere egg", 110);
         
         // makes the lastRoom for going back in time
-        Room lastRoom = outside;
+        history.push(outside);
         currentRoom = outside;  // start game outside
     }
 
@@ -151,8 +170,8 @@ public class Game
             result = look(command);
         }
         else if (commandWord.equals("hack")) {
-            result = hack(command);
-            TimeBomb(5000);
+            result = hackSteal(command);
+            
         }
         else if(commandWord.equals("back")) {
             result = back(command);
@@ -176,8 +195,6 @@ public class Game
         out = out.substring(0, out.length() - 2);
         return out;
     }
-    
-    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -185,7 +202,6 @@ public class Game
      */
     private String printHelp() 
     {
-      
         return "You are lost. You are alone. You wander"
         +"\n"
         + "around at the university."
@@ -203,8 +219,9 @@ public class Game
      */
     private String back(Command command)
     {
-        String result = "";
-        currentRoom = this.prevRoom;
+        String result = ""; 
+        currentRoom = history.peek();
+        history.pop();
         result += "You are " + currentRoom.getDescription()+"\n";
         result += "in this room there is, " + currentRoom.getObjectDescription() +"\n";
         result += "Exits: ";
@@ -222,9 +239,6 @@ public class Game
         }
         return result;
     }
-        
-    
-        
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
@@ -237,7 +251,7 @@ public class Game
             return "please tell where to go";
         }
         Room nextRoom = null;
-        prevRoom = currentRoom;
+        history.push(currentRoom);
         String direction = command.getSecondWord();
         if(direction.equals("north")) {
             nextRoom = currentRoom.northExit;
@@ -251,12 +265,10 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
-  
         String result = "";
         if (nextRoom == null) {
-            result += "There is no door!";
+            result += "There is no door, Auww my head!";
         }
-        
         else {
             currentRoom = nextRoom;
             result += "You are " + currentRoom.getDescription()+"\n";
@@ -299,16 +311,23 @@ public class Game
      */
     private String look(Command command)
     {
-        return "looking around not really much too see";
+        return currentRoom.getObjectDescription();
     }
     /**
      * @param a Command object
      * 
      * returns String saying what you see 
      */
-    private String hack(Command command)
-    {
-        return "Wrong move, 5 seconds till selfdesctruction";
+    private String pickUp(Command command)
+    {   
+        if(
+    }
+    //win function runs when the player wins
+    private void win(){
+        for(int i = 0; i == 1000; i++){
+            System.out.println("yeeeeeeeeeeeeeeeeeeeeeey your rich !!!!!");
+            System.out.println("/n");
+        }
     }
     /**
      * @param Time paused before main event in MS

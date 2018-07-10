@@ -20,7 +20,7 @@ public class Room
     public Room southExit;
     public Room eastExit;
     public Room westExit;
-    public Object[] ob = new Object[10];
+    public Item[] ob = new Item[10];
     
     /**
      * Create a room described "description". Initially, it has
@@ -70,7 +70,7 @@ public class Room
      */
     public void addItem(int objectNR, String objectDescription, int objectWeight)
     {
-        ob[objectNR] = new Object(objectDescription, objectWeight);
+        ob[objectNR] = new Item(objectDescription, objectWeight);
     }
     /**
      * 
