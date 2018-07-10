@@ -22,9 +22,9 @@ public class Game
     private Room currentRoom;
     private Room prevRoom;
     Stack<Room> history = new Stack<Room>();
+    Stack<Item> playersItems = new Stack<Item>();
     validWords valid;
-    boolean hacked = false;
-    Stack<Item> itemsCarreid = new Stack<Item>();
+    int playerStrength = 1;
     /**
      * Create the game and initialise its internal map.
      */
@@ -33,7 +33,6 @@ public class Game
         createRooms();
         parser = new Parser();
     }
-
     /**
      * Create all the rooms and link their exits together.
      */
@@ -61,15 +60,15 @@ public class Game
          * @param String object description
          * @param int if the object is pickup able by the player +100 
          */
-        outside.setExits(null, theater, lab, pub, -1, "nothing to see here", 5);
-        gaurdedGarden.setExits(theater, null, null, null, -1, "gaurds here better be silent and get out of here", 3);
-        theater.setExits(null, null, gaurdedGarden, outside, -1, "a guard walking around better leave soon", 80);
-        pub.setExits(null, outside, null, null, -1, "nothing there", 90);
-        lab.setExits(outside, office, null, null, -1, "reasearch and stuff", 500);
-        office.setExits(null, null, computer, lab, 3, "a piece of paper with a code of some kind", 101);
-        computer.setExits(null, null, office, gaurded, 4, "a mainframecomputer, HMMMM", 101);
-        gaurded.setExits(computer, null, tresure, null, 5, "sleepy guards on the floor", 50);
-        tresure.setExits(tresure, null, gaurded, null, 6, "the magical looking fabere egg", 110);
+        outside.setExits(null, theater, lab, pub, -1, "nothing to see here", 0);
+        gaurdedGarden.setExits(theater, null, null, null, 2, "a piece of paper with some wierd scribbles on it", 0);
+        theater.setExits(null, null, gaurdedGarden, outside, -1, "a guard walking around better leave soon", 0);
+        pub.setExits(null, outside, null, null, -1, "nothing there", 0);
+        lab.setExits(outside, office, null, null, -1, "reasearch and stuff", 0);
+        office.setExits(null, null, computer, lab, 3, "a piece of paper with a code of some kind", 0);
+        computer.setExits(null, null, office, gaurded, 4, "a mainframecomputer with numbers on them", 0);
+        gaurded.setExits(computer, null, tresure, null, 5, "hey another piece of codepaper", 0);
+        tresure.setExits(tresure, null, gaurded, null, 6, "the magical looking fabere egg", 4);
         
         // makes the lastRoom for going back in time
         history.push(outside);
@@ -115,8 +114,10 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to the A Fancy omlet!");
+        System.out.println("It is your goal to steal enough infomation so you can hack the safe");
+        System.out.println("Inside of the safe is the queen of englands faberge egg collection");
+        System.out.println("It is your goal to get the eggs and make yourself a fancy omelet");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.println("You are " + currentRoom.getDescription());
@@ -146,7 +147,7 @@ public class Game
      * @return true If the command ends the game, false otherwise.
      */
     private String processCommand(Command command) 
-    {
+    {   
         boolean wantToQuit = false;
         if(command.isUnknown()) {
             return "I don't know what you mean...";       
@@ -163,20 +164,18 @@ public class Game
         else if (commandWord.equals("quit")) {
             result = quit(command);
         }
-        else if (commandWord.equals("eat")) {
-            result = eat(command);
+        else if (commandWord.equals("status")) {
+            result = status(command);
         }
         else if (commandWord.equals("look")) {
             result = look(command);
         }
-        else if (commandWord.equals("hack")) {
-            result = hackSteal(command);
-            
+        else if (commandWord.equals("pickup")) {
+            result = pickUp(command);
         }
         else if(commandWord.equals("back")) {
             result = back(command);
         }
-        
         return result ;
     }
     /**
@@ -244,8 +243,7 @@ public class Game
      * the new room, otherwise print an error message.
      */
     private String goRoom(Command command) 
-    {
-        
+    {   
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             return "please tell where to go";
@@ -293,16 +291,25 @@ public class Game
     /**
      * @param a Command object
      * 
+     * streamcode example from youtube video about javaStreams 
      * returns String saying that you have eaten
      */
-    private String eat(Command command)
+    private String status(Command command)
     {
-        if (currentRoom.objectNR != -1){
-            return "There is an object in the room";
+        String resu = "";
+        if (playerStrength  <= 1){
+            return "you have no items yet";
         }
         else{
-            return "there is no object in the room";
+            for(Item i : playersItems){
+                resu += i.getDescription();
+                resu += "\n";
+            }
+            return "you have: " + (playerStrength -1) + " piece/s of information, you need 5 and than find the egg to win "
+            + "\n"
+            + "You are carrying: " + resu;
         }
+        
     }
     /**
      * @param a Command object
@@ -315,16 +322,40 @@ public class Game
     }
     /**
      * @param a Command object
-     * 
-     * returns String saying what you see 
+     * picks up items and adds them to the playersItems stack
+     * returns String for giving the player infomation on the game state
      */
     private String pickUp(Command command)
     {   
-        if(
+        if(currentRoom.getObjectWeight() > playerStrength)
+        {
+            timeBomb(1000);
+            System.out.println("AAAAAAGH the alarms run try again tomorrow!");
+            return "you loose";
+        }
+        if(currentRoom.getObjectWeight() < playerStrength)
+        {
+            playersItems.push(currentRoom.getItem());
+            playerStrength += 1;
+            if(playerStrength == 6)
+            {
+                win();
+            }
+            return "succes picked up "
+            + currentRoom.getObjectDescription() 
+            + "\n"
+            + " you still need: " + (5 - playerStrength)
+            + " pieces of information to get the egg"; 
+        }
+        else
+        {
+            return "there is nothing here";
+        }
     }
     //win function runs when the player wins
     private void win(){
-        for(int i = 0; i == 1000; i++){
+        for(int i = 0; i == 1000; i++)
+        {
             System.out.println("yeeeeeeeeeeeeeeeeeeeeeey your rich !!!!!");
             System.out.println("/n");
         }
@@ -332,9 +363,9 @@ public class Game
     /**
      * @param Time paused before main event in MS
      * 
-     * sets the selfdestruction event up
+     * sets the selfdestruction event up for alarms in the game
      */
-    private void TimeBomb(int time)
+    private void timeBomb(int time)
     {
        try   
        {

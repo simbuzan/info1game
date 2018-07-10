@@ -87,7 +87,22 @@ public class Room
             return ob[objectNR].getDescription();
         }
     }
-    /**
+    public int getObjectWeight()
+    {
+        if(objectNR == -1)
+        {
+            return -1;
+        }
+        else
+        {
+            return ob[objectNR].getWeight();
+        }
+    }
+    public Item getItem()
+    {
+        return ob[objectNR];
+    }
+    /**    
      * @return The description of the room.
      */
     public String getDescription()
