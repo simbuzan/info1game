@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=Item
+comment0.text=\n\ Object\ class\ for\ the\ objects\ that\ can\ be\ stored\ in\ the\ rooms\n\ \n\ @author\ Daan\ Lockhorst,\ Steffie\ Imbuzan,\ Ella\ katasijto\n\ @version\ 03.05.2018\n
+comment1.params=whereIn\ Name\ Description\ Weight
+comment1.target=Item(Room,\ java.lang.String,\ java.lang.String,\ int)
+comment2.params=
+comment2.target=int\ getWeight()
+comment2.text=\n\ @return\ int\ object\ weight\n
+comment3.params=
+comment3.target=Room\ getWhereIn()
+comment3.text=\n\ @returns\ a\ room\ Object\ where\ the\ item\ is\ currently\ in\n
+comment4.params=w
+comment4.target=void\ setWhereIn(Room)
+comment5.params=
+comment5.target=java.lang.String\ getDescription()
+comment5.text=\n\ @return\ String\ containing\ the\ object\ description\n
+comment6.params=
+comment6.target=java.lang.String\ getName()
+comment6.text=\n\ @return\ String\ containing\ the\ object\ description\n
+numComments=7

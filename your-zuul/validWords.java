@@ -9,5 +9,5 @@
  */
 public enum validWords
     {
-        go, quit, help, status, look, pickup, back;
+        go, quit, help, status, look, pickup, back, drop, dropall;
     }

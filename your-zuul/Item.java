@@ -7,28 +7,48 @@
  */
 public class Item
 {
-    int objectNR;
-    String objectDescription;
-    int objectWeight;
+    String Name;
+    String Description;
+    int Weight;
+    Room whereIn;
     
-    
-    public Item(String objectDescription, int objectWeight)
+    public Item(Room whereIn, String Name, String Description, int Weight)
     {
-        this.objectDescription = objectDescription;
-        this.objectWeight = objectWeight;
+        this.whereIn = whereIn;
+        this.Description = Description;
+        this.Name = Name;
+        this.Weight = Weight;
     }
     /**
     * @return int object weight
     */
     public int getWeight()
     {
-        return objectWeight;
+        return Weight;
+    }
+     /**
+    * @returns a room Object where the item is currently in
+    */
+    public Room getWhereIn()
+    {
+        return whereIn;
+    }
+    public void setWhereIn(Room w)
+    {
+        whereIn = w;
     }
      /**
     * @return String containing the object description
     */
     public String getDescription()
     {
-        return objectDescription;
+        return Description;
+    }
+     /**
+    * @return String containing the object description
+    */
+    public String getName()
+    {
+        return Name;
     }
 }

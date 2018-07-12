@@ -12,6 +12,7 @@
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+import java.util.*;
 public class Room 
 {
     public String description;
@@ -20,8 +21,6 @@ public class Room
     public Room southExit;
     public Room eastExit;
     public Room westExit;
-    public Item[] ob = new Item[10];
-    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -41,8 +40,7 @@ public class Room
      * @param west The west exit.
      * @param objectNR
       */
-    public void setExits(Room north, Room east, Room south, Room west,
-                    int objectNR, String objectDescription, int objectWeight)
+    public void setExits(Room north, Room east, Room south, Room west)
     {
         if(north != null) {
             northExit = north;
@@ -56,51 +54,6 @@ public class Room
         if(west != null) {
             westExit = west;
         }
-        this.objectNR = objectNR;
-        if (objectNR != -1)
-        {
-            addItem(objectNR, objectDescription, objectWeight);
-        }
-    }
-    /**
-     * add item to the item array 
-     * @param objectNR the index to link to rooms
-     * @param String objectDescription tells what the object is and does
-     * @param int objectWeigth checks if player stregth is enought to pick up the objects
-     */
-    public void addItem(int objectNR, String objectDescription, int objectWeight)
-    {
-        ob[objectNR] = new Item(objectDescription, objectWeight);
-    }
-    /**
-     * 
-     * @Returns a object description of whats in the room
-     */
-    public String getObjectDescription()
-    {
-        if (objectNR == -1)
-        {
-            return "nothing here";
-        }
-        else 
-        {
-            return ob[objectNR].getDescription();
-        }
-    }
-    public int getObjectWeight()
-    {
-        if(objectNR == -1)
-        {
-            return -1;
-        }
-        else
-        {
-            return ob[objectNR].getWeight();
-        }
-    }
-    public Item getItem()
-    {
-        return ob[objectNR];
     }
     /**    
      * @return The description of the room.
